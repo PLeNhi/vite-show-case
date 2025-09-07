@@ -6,10 +6,9 @@ import {
 import type { QueryClient } from '@tanstack/react-query';
 
 import { fetchProduct, fetchProducts, productQueryKey, productsQueryKey } from './apis/api';
-import ProductsPage from './pages/products';
-import ProductDetailPage from './pages/product-detail';
 import RootLayout from './layouts/root-layout';
 import Loading from './components/loading';
+import { lazyPage } from './components/page-lazy';
 
 // 1) Kiểu context
 export type RouterContext = {
@@ -26,6 +25,10 @@ const indexRoute = createRoute({
   path: '/',
   component: () => <div>Welcome</div>,
 });
+
+const ProductsPage = lazyPage(() => import('./pages/products'));
+const ProductDetailPage = lazyPage(() => import('./pages/product-detail'));
+const BigListVirtualized = lazyPage(() => import('./pages/big-list-virtualized'));
 
 const productsRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -59,7 +62,18 @@ const productDetailRoute = createRoute({
   errorComponent: ({ error }) => <div>Failed to load: {error.message}</div>,
 });
 
-export const routeTree = rootRoute.addChildren([indexRoute, productsRoute, productDetailRoute]);
+const bigListRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/biglist',
+  component: BigListVirtualized,
+});
+
+export const routeTree = rootRoute.addChildren([
+  indexRoute,
+  productsRoute,
+  productDetailRoute,
+  bigListRoute,
+]);
 
 // 3) Hàm factory tạo router khi có context
 export function makeRouter(context: RouterContext) {

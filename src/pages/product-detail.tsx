@@ -31,6 +31,7 @@ export default function ProductDetailPage() {
         </p>
         <p style={{ marginTop: 16 }}>{data!.description}</p>
       </div>
+      <button onClick={() => alert('Đã mua thành công, chờ ship đi cu')}> Mua </button>
     </article>
   );
 }
