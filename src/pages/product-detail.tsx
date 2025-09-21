@@ -3,7 +3,7 @@ import { useParams } from '@tanstack/react-router';
 import { fetchProduct, productQueryKey, type Product } from '../apis/api';
 
 export default function ProductDetailPage() {
-  const { id } = useParams({ from: '/product/$id' });
+  const { id } = useParams({ from: '/products/$id' });
 
   const { data, isLoading, isError, error } = useQuery<Product>({
     queryKey: productQueryKey(id),

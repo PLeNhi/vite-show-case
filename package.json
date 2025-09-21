@@ -12,14 +12,18 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.85.6",
-    "@tanstack/react-router": "^1.131.31",
+    "@tailwindcss/vite": "^4.1.13",
+    "@tanstack/react-query": "^5.89.0",
+    "@tanstack/react-router": "^1.131.49",
+    "classnames": "^2.5.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-window": "^2.0.2"
+    "react-window": "^2.0.2",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@types/node": "^24.5.2",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",

@@ -37,7 +37,7 @@ export default function ProductsPage() {
             />
             <h3 style={{ fontSize: 16, lineHeight: 1.2 }}>{p.title}</h3>
             <p>${p.price}</p>
-            <Link to="/product/$id" params={{ id: String(p.id) }} preload="intent">
+            <Link to="/products/$id" params={{ id: String(p.id) }} preload="intent">
               View detail →
             </Link>
           </li>
