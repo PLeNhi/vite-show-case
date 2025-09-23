@@ -29,6 +29,13 @@ export default function RootLayout({ children }: { children?: React.ReactNode })
             >
               Products
             </Link>
+            <Link
+              to="/carts"
+              activeProps={{ className: 'font-medium' }}
+              className="hover:underline"
+            >
+              Carts
+            </Link>
           </nav>
         </div>
       </header>
@@ -56,6 +63,15 @@ export default function RootLayout({ children }: { children?: React.ReactNode })
                 className="block px-2 py-1 rounded hover:bg-gray-50"
               >
                 Products
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/carts"
+                activeProps={{ className: 'font-medium' }}
+                className="block px-2 py-1 rounded hover:bg-gray-50"
+              >
+                Carts
               </Link>
             </li>
           </ul>

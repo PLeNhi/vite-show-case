@@ -45,7 +45,7 @@ export function buildRoutes(
   // detail '/product/$id'
   const productDetailRoute = createRoute({
     getParentRoute: () => rootRoute,
-    path: '/product/$id',
+    path: '/products/$id',
     loader: async ({ context, params }) => {
       await context.queryClient.ensureQueryData({
         queryKey: productQueryKey(params.id),

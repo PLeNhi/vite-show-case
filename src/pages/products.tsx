@@ -1,13 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { fetchProducts, productsQueryKey, type Product } from '../apis/api';
+import { useCartDispatch } from '../context/cart-provider';
 
 export default function ProductsPage() {
-  const { data, isLoading, isError, error, refetch, isFetching } = useQuery<Product[]>({
+  const { data, isLoading, isError, error, refetch } = useQuery<Product[]>({
     queryKey: productsQueryKey,
     queryFn: fetchProducts,
     staleTime: 30_000,
   });
+
+  const dispatch = useCartDispatch();
 
   if (isLoading) return <div>Loading products…</div>;
   if (isError)
@@ -20,7 +23,7 @@ export default function ProductsPage() {
 
   return (
     <div>
-      <h1>Products {isFetching ? <small>(refreshing…)</small> : null}</h1>
+      <div></div>
       <ul
         style={{
           display: 'grid',
@@ -40,6 +43,12 @@ export default function ProductsPage() {
             <Link to="/products/$id" params={{ id: String(p.id) }} preload="intent">
               View detail →
             </Link>
+            <button
+              className="w-full border cursor-pointer rounded-2xl bg-blue-500 text-white py-2 mt-2"
+              onClick={() => dispatch({ type: 'ADD_ITEM', payload: p })}
+            >
+              Add to cart
+            </button>
           </li>
         ))}
       </ul>
