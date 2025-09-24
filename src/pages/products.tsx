@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link } from '@tanstack/react-router';
 import { fetchProducts, productsQueryKey, type Product } from '../apis/api';
-import { useCartDispatch } from '../context/cart-provider';
+import ProductCard from '../features/products/product-card';
 
 export default function ProductsPage() {
   const { data, isLoading, isError, error, refetch } = useQuery<Product[]>({
@@ -9,8 +8,6 @@ export default function ProductsPage() {
     queryFn: fetchProducts,
     staleTime: 30_000,
   });
-
-  const dispatch = useCartDispatch();
 
   if (isLoading) return <div>Loading products…</div>;
   if (isError)
@@ -20,6 +17,8 @@ export default function ProductsPage() {
         <button onClick={() => refetch()}>Retry</button>
       </div>
     );
+
+  console.log('ProductsPage --- Render');
 
   return (
     <div>
@@ -32,24 +31,7 @@ export default function ProductsPage() {
         }}
       >
         {data!.map((p) => (
-          <li key={p.id} style={{ border: '1px solid #eee', borderRadius: 8, padding: 12 }}>
-            <img
-              src={p.image}
-              alt={p.title}
-              style={{ width: '100%', height: 160, objectFit: 'contain' }}
-            />
-            <h3 style={{ fontSize: 16, lineHeight: 1.2 }}>{p.title}</h3>
-            <p>${p.price}</p>
-            <Link to="/products/$id" params={{ id: String(p.id) }} preload="intent">
-              View detail →
-            </Link>
-            <button
-              className="w-full border cursor-pointer rounded-2xl bg-blue-500 text-white py-2 mt-2"
-              onClick={() => dispatch({ type: 'ADD_ITEM', payload: p })}
-            >
-              Add to cart
-            </button>
-          </li>
+          <ProductCard key={p.id} product={p} />
         ))}
       </ul>
     </div>

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   selectCartCount,
   selectCartTotal,
@@ -6,10 +7,15 @@ import {
 } from '../context/cart-provider';
 
 export default function CartPage() {
-  const { cart } = useCart();
+  const cart = useCart();
   const dispatch = useCartDispatch();
-  const count = selectCartCount(cart);
-  const total = selectCartTotal(cart);
+  const { count, total } = useMemo(() => {
+    return {
+      count: selectCartCount(cart),
+      total: selectCartTotal(cart),
+    };
+  }, [cart]);
+  console.log('🚀 ~ CartPage ~ count:', count);
 
   if (cart.length === 0) {
     return (

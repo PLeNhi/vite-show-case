@@ -46,34 +46,45 @@ export type CartContextType = {
   dispatch: React.Dispatch<Action>;
 };
 
-const CartContext = React.createContext<CartContextType | undefined>(undefined);
+const CartStateContext = React.createContext<TCartState | undefined>(undefined);
+const CartDispatchContext = React.createContext<React.Dispatch<Action> | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cart, dispatch] = React.useReducer(cartReducer, []);
 
-  return <CartContext.Provider value={{ cart, dispatch }}>{children}</CartContext.Provider>;
+  return (
+    <CartDispatchContext.Provider value={dispatch}>
+      <CartStateContext.Provider value={cart}>{children}</CartStateContext.Provider>
+    </CartDispatchContext.Provider>
+  );
 };
 
-export const useCartDispatch = (): React.Dispatch<Action> => {
-  const context = React.useContext(CartContext);
-  if (!context) {
-    throw new Error('useCartDispatch must be used within a CartProvider');
-  }
-  return context.dispatch;
-};
+export function useCart() {
+  const ctx = React.useContext(CartStateContext);
+  if (!ctx) throw new Error('useCart must be used within CartProvider');
+  return ctx;
+}
+export function useCartDispatch() {
+  const ctx = React.useContext(CartDispatchContext);
+  if (!ctx) throw new Error('useCartDispatch must be used within CartProvider');
+  return ctx;
+}
 
-export const useCart = (): CartContextType => {
-  const context = React.useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
+// export const useCartDispatch = () => {
+//   const context = React.useContext(CartDispatchContext);
+//   if (!context) {
+//     throw new Error('useCartDispatch must be used within a CartProvider');
+//   }
+//   return context;
+// };
 
-export const selectCartCount = (cart: TCartState): number => {
-  return cart.reduce((total, item) => total + item.quantity, 0);
-};
-
-export const selectCartTotal = (cart: TCartState): number => {
-  return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-};
+// export const useCart = () => {
+//   const context = React.useContext(CartStateContext);
+//   if (!context) {
+//     throw new Error('useCart must be used within a CartProvider');
+//   }
+//   return context;
+// };
+export const selectCartCount = (cart: TCartState) => cart.reduce((s, i) => s + i.quantity, 0);
+export const selectCartTotal = (cart: TCartState) =>
+  cart.reduce((s, i) => s + i.quantity * i.price, 0);

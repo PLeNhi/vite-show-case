@@ -3,7 +3,7 @@ import { Breadcrumbs } from '../components/breadcrumbs';
 import { selectCartCount, useCart } from '../context/cart-provider';
 
 export default function RootLayout({ children }: { children?: React.ReactNode }) {
-  const count = selectCartCount(useCart().cart);
+  const count = selectCartCount(useCart());
   return (
     <div className="min-h-screen w-full bg-gray-50 text-gray-900">
       {/* Header */}

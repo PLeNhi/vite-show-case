@@ -11,6 +11,8 @@ export default function ProductDetailPage() {
     staleTime: 30_000,
   });
 
+  console.log('ProductDetailPage --- Render');
+
   if (isLoading) return <div>Loading…</div>;
   if (isError) return <div>Failed to load: {(error as Error).message}</div>;
 
