@@ -1,7 +1,9 @@
 import { Link, Outlet } from '@tanstack/react-router';
 import { Breadcrumbs } from '../components/breadcrumbs';
+import { selectCartCount, useCart } from '../context/cart-provider';
 
 export default function RootLayout({ children }: { children?: React.ReactNode }) {
+  const count = selectCartCount(useCart().cart);
   return (
     <div className="min-h-screen w-full bg-gray-50 text-gray-900">
       {/* Header */}
@@ -34,7 +36,7 @@ export default function RootLayout({ children }: { children?: React.ReactNode })
               activeProps={{ className: 'font-medium' }}
               className="hover:underline"
             >
-              Carts
+              Carts ({count})
             </Link>
           </nav>
         </div>
